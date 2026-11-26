@@ -1,6 +1,6 @@
 import { loadTasks, saveTasks } from "./storage.js";
 import { addTask, getTasks, removeTask, setTasks, toggleTask, updateTaskTitle } from "./tasks.js";
-import { renderTasks, showFeedback } from "./ui.js";
+import { clearFeedback, renderTasks, showFeedback } from "./ui.js";
 
 const taskForm = document.querySelector("#task-form");
 const taskTitleInput = document.querySelector("#task-title");
@@ -42,11 +42,13 @@ taskForm.addEventListener("submit", (event) => {
   const title = taskTitleInput.value.trim();
 
   if (title === "") {
+    taskTitleInput.setAttribute("aria-invalid", "true");
     showFeedback(formFeedback, "Digite uma tarefa antes de adicionar.", "error");
     taskTitleInput.focus();
     return;
   }
 
+  taskTitleInput.removeAttribute("aria-invalid");
   addTask(title);
   selectFilter("all");
   renderCurrentTasks();
@@ -60,6 +62,13 @@ taskForm.addEventListener("submit", (event) => {
   }
 
   taskTitleInput.focus();
+});
+
+taskTitleInput.addEventListener("input", () => {
+  if (taskTitleInput.value.trim() !== "" && taskTitleInput.getAttribute("aria-invalid") === "true") {
+    taskTitleInput.removeAttribute("aria-invalid");
+    clearFeedback(formFeedback);
+  }
 });
 
 taskList.addEventListener("change", (event) => {
@@ -97,6 +106,7 @@ taskList.addEventListener("click", (event) => {
   const editButton = event.target.closest("[data-task-edit]");
   if (editButton !== null) {
     editingTaskId = editButton.dataset.taskEdit;
+    clearFeedback(formFeedback);
     renderCurrentTasks();
     const editInput = Array.from(taskList.querySelectorAll("[data-task-edit-input]"))
       .find((input) => input.dataset.taskEditInput === editingTaskId);
@@ -108,6 +118,7 @@ taskList.addEventListener("click", (event) => {
   if (cancelButton !== null) {
     const canceledTaskId = cancelButton.dataset.taskEditCancel;
     editingTaskId = null;
+    clearFeedback(formFeedback);
     renderCurrentTasks();
     const taskEditButton = Array.from(taskList.querySelectorAll("[data-task-edit]"))
       .find((button) => button.dataset.taskEdit === canceledTaskId);
@@ -149,11 +160,13 @@ taskList.addEventListener("submit", (event) => {
   const editInput = editForm.querySelector("[data-task-edit-input]");
   const title = editInput.value.trim();
   if (title === "") {
+    editInput.setAttribute("aria-invalid", "true");
     showFeedback(formFeedback, "O título da tarefa não pode ficar vazio.", "error");
     editInput.focus();
     return;
   }
 
+  editInput.removeAttribute("aria-invalid");
   const updatedTask = updateTaskTitle(editForm.dataset.taskEditForm, title);
   if (updatedTask === null) {
     return;
@@ -172,6 +185,15 @@ taskList.addEventListener("submit", (event) => {
   const taskEditButton = Array.from(taskList.querySelectorAll("[data-task-edit]"))
     .find((button) => button.dataset.taskEdit === updatedTask.id);
   taskEditButton?.focus();
+});
+
+taskList.addEventListener("input", (event) => {
+  const editInput = event.target.closest("[data-task-edit-input]");
+
+  if (editInput !== null && editInput.value.trim() !== "" && editInput.getAttribute("aria-invalid") === "true") {
+    editInput.removeAttribute("aria-invalid");
+    clearFeedback(formFeedback);
+  }
 });
 
 taskFilters.addEventListener("click", (event) => {

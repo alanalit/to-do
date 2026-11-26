@@ -49,6 +49,8 @@ h1 { margin-bottom: 12px; font-family: Manrope, "Segoe UI", sans-serif; font-siz
 .input-icon { color: #a5a0ad; font-size: 24px; font-weight: 300; }
 .task-form input { flex: 1; width: 0; padding: 12px 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 14px; }
 .task-form input::placeholder { color: #a3a79f; }
+#task-title[aria-invalid="true"] { box-shadow: inset 0 -2px #a34242; }
+.edit-task-input[aria-invalid="true"] { border-color: #a34242; }
 .form-feedback { margin: 0 27px; padding-top: 8px; font-size: 12px; }
 .form-feedback:empty { display: none; }
 .form-feedback[data-type="error"] { color: #a34242; }
@@ -98,7 +100,7 @@ h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 
 :focus-visible { outline: 3px solid #a88ace; outline-offset: 3px; }
-.task-form input:focus-visible { outline: none; }
+.task-form input:focus-visible { outline: 2px solid #a88ace; outline-offset: 2px; border-radius: 3px; }
 .task-form:focus-within { border-radius: 5px; box-shadow: inset 0 -2px var(--purple); }
 
 @media (max-width: 520px) {
