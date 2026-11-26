@@ -16,6 +16,17 @@ export function addTask(title) {
   return task;
 }
 
+export function toggleTask(taskId) {
+  const task = tasks.find((item) => item.id === taskId);
+
+  if (task === undefined) {
+    return null;
+  }
+
+  task.completed = !task.completed;
+  return task;
+}
+
 export function getTasks() {
   return tasks;
 }

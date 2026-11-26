@@ -16,12 +16,24 @@ export function renderTasks(taskList, taskCount, tasks) {
     tasks.forEach((task) => {
       const listItem = document.createElement("li");
       listItem.className = "task-item";
+      listItem.classList.toggle("is-completed", task.completed);
+
+      const taskToggle = document.createElement("input");
+      taskToggle.className = "task-check";
+      taskToggle.type = "checkbox";
+      taskToggle.checked = task.completed;
+      taskToggle.dataset.taskToggle = task.id;
+      taskToggle.setAttribute(
+        "aria-label",
+        task.completed ? `Reabrir tarefa: ${task.title}` : `Marcar como concluída: ${task.title}`,
+      );
 
       const taskTitle = document.createElement("span");
       taskTitle.className = "task-title";
       taskTitle.textContent = task.title;
+      taskTitle.classList.toggle("task-title-completed", task.completed);
 
-      listItem.append(taskTitle);
+      listItem.append(taskToggle, taskTitle);
       taskList.append(listItem);
     });
   }
