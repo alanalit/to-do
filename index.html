@@ -25,19 +25,20 @@
         </section>
 
         <section class="task-panel" aria-labelledby="tasks-title">
-          <form class="task-form" id="task-form">
+          <form class="task-form" id="task-form" novalidate>
             <label class="visually-hidden" for="task-title">O que você precisa fazer?</label>
             <span class="input-icon" aria-hidden="true">＋</span>
             <input id="task-title" name="title" type="text" placeholder="O que você precisa fazer?" autocomplete="off" />
             <button class="add-button" type="submit"><span>Adicionar</span><span aria-hidden="true">↗</span></button>
           </form>
+          <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
 
           <div class="list-heading">
             <div>
               <p class="eyebrow">SUA LISTA</p>
               <h2 id="tasks-title">Tarefas de hoje</h2>
             </div>
-            <span class="task-count" aria-label="0 tarefas">00</span>
+            <span class="task-count" id="task-count" aria-label="0 tarefas">00</span>
           </div>
 
           <ul class="task-list" id="task-list" aria-labelledby="tasks-title">
@@ -49,8 +50,10 @@
               <p class="empty-copy">Adicione sua primeira tarefa.</p>
             </li>
           </ul>
+          <footer class="panel-footer">Pequenos passos também levam longe.</footer>
         </section>
-
+        <p class="page-note">Feito para deixar a rotina mais leve <span aria-hidden="true">♡</span></p>
+      </main>
     </div>
   </body>
 </html>
