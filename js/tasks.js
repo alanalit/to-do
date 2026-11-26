@@ -1,4 +1,8 @@
-const tasks = [];
+let tasks = [];
+
+export function setTasks(savedTasks) {
+  tasks = savedTasks;
+}
 
 export function addTask(title) {
   const task = {
