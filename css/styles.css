@@ -49,6 +49,10 @@ h1 { margin-bottom: 12px; font-family: Manrope, "Segoe UI", sans-serif; font-siz
 .input-icon { color: #a5a0ad; font-size: 24px; font-weight: 300; }
 .task-form input { flex: 1; width: 0; padding: 12px 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 14px; }
 .task-form input::placeholder { color: #a3a79f; }
+.form-feedback { margin: 0 27px; padding-top: 8px; font-size: 12px; }
+.form-feedback:empty { display: none; }
+.form-feedback[data-type="error"] { color: #a34242; }
+.form-feedback[data-type="success"] { color: var(--purple); }
 .add-button { display: inline-flex; align-items: center; justify-content: center; gap: 11px; min-height: 39px; padding: 0 16px; border: 0; border-radius: 9px; background: var(--purple); color: white; font-size: 12px; font-weight: 600; transition: background .18s ease, transform .18s ease; }
 .add-button:hover { background: var(--purple-dark); transform: translateY(-1px); }
 .add-button span:last-child { font-size: 15px; }
@@ -56,7 +60,27 @@ h1 { margin-bottom: 12px; font-family: Manrope, "Segoe UI", sans-serif; font-siz
 .list-heading .eyebrow { margin-bottom: 5px; font-size: 9px; letter-spacing: 1.5px; }
 h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.5px; }
 .task-count { display: grid; min-width: 32px; height: 27px; padding: 0 7px; place-items: center; border-radius: 8px; background: #f1f3ee; color: #7d887f; font-size: 10px; font-weight: 700; letter-spacing: .4px; }
+.task-filters { display: flex; gap: 6px; padding: 0 27px 12px; overflow-x: auto; }
+.filter-button { display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 0 10px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: #777f78; white-space: nowrap; font-size: 11px; }
+.filter-button:hover { background: #f6f4f8; }
+.filter-button[aria-pressed="true"] { border-color: #e5ddef; background: #f3eef8; color: var(--purple-dark); font-weight: 600; }
+.filter-count { color: #99929f; font-size: 10px; }
+.filter-button[aria-pressed="true"] .filter-count { color: var(--purple); }
 .task-list { min-height: 245px; margin: 0; padding: 0 27px; list-style: none; }
+.task-item { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 4px; border-bottom: 1px solid var(--line); color: #48534a; font-size: 14px; overflow-wrap: anywhere; }
+.task-check { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: var(--purple); cursor: pointer; }
+.task-title { flex: 1; overflow-wrap: anywhere; }
+.task-title-completed { color: #9a9a97; text-decoration: line-through; text-decoration-thickness: 1px; }
+.edit-task, .remove-task { flex: 0 0 auto; padding: 6px 9px; border: 1px solid #e8e3ee; border-radius: 7px; background: transparent; color: #746782; font-size: 11px; transition: background .18s ease, color .18s ease; }
+.edit-task:hover, .remove-task:hover { border-color: #6841a5; background: #6841a5; color: #fff; }
+.edit-task:disabled, .remove-task:disabled, .task-check:disabled { cursor: not-allowed; opacity: .45; }
+.edit-task-form { display: flex; width: 100%; align-items: center; gap: 7px; }
+.edit-task-input { min-width: 0; min-height: 35px; flex: 1; padding: 6px 9px; border: 1px solid #ddd5e8; border-radius: 7px; color: var(--ink); }
+.edit-save, .edit-cancel { flex: 0 0 auto; min-height: 34px; padding: 0 9px; border: 0; border-radius: 7px; font-size: 11px; }
+.edit-save { background: var(--purple); color: #fff; }
+.edit-save:hover { background: var(--purple-dark); }
+.edit-cancel { background: #f1eff3; color: #68626f; }
+.edit-cancel:hover { background: #e7e2eb; }
 .empty-state { display: flex; min-height: 220px; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 22px; text-align: center; }
 .empty-illustration { position: relative; display: block; width: 84px; height: 75px; margin-bottom: 12px; }
 .sun { position: absolute; top: 4px; right: 10px; width: 25px; height: 25px; border-radius: 50%; background: #f5d5a9; }
@@ -87,9 +111,16 @@ h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 
   .intro-copy { max-width: 290px; margin-right: auto; margin-left: auto; font-size: 13px; line-height: 1.6; }
   .task-panel { border-radius: 14px; }
   .task-form { gap: 9px; min-height: 68px; margin: 0 16px; }
+  .form-feedback { margin: 0 18px; }
   .task-form input { font-size: 13px; }
   .add-button { gap: 7px; min-height: 37px; padding: 0 11px; font-size: 11px; }
+  .task-item { gap: 9px; font-size: 13px; }
+  .edit-task, .remove-task { padding: 6px 7px; font-size: 10px; }
+  .edit-task-form { gap: 5px; }
+  .edit-save, .edit-cancel { padding: 0 7px; font-size: 10px; }
   .list-heading { padding: 23px 18px 14px; }
+  .task-filters { gap: 3px; padding: 0 18px 10px; }
+  .filter-button { gap: 5px; padding: 0 8px; font-size: 10px; }
   .task-list { padding: 0 18px; }
   .panel-footer { font-size: 9px; }
 }
