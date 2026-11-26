@@ -11,7 +11,8 @@ function isValidTask(task) {
     task.title.trim() !== "" &&
     typeof task.completed === "boolean" &&
     typeof task.createdAt === "string" &&
-    !Number.isNaN(Date.parse(task.createdAt))
+    !Number.isNaN(Date.parse(task.createdAt)) &&
+    new Date(task.createdAt).toISOString() === task.createdAt
   );
 }
 
@@ -52,7 +53,7 @@ export function loadTasks() {
     }
 
     usedIds.add(task.id);
-    tasks.push(task);
+    tasks.push({ ...task, title: task.title.trim() });
   });
 
   return {

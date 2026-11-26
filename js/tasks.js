@@ -5,9 +5,14 @@ export function setTasks(savedTasks) {
 }
 
 export function addTask(title) {
+  const cleanTitle = title.trim();
+  if (cleanTitle === "") {
+    return null;
+  }
+
   const task = {
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    title: title.trim(),
+    title: cleanTitle,
     completed: false,
     createdAt: new Date().toISOString(),
   };
@@ -29,12 +34,13 @@ export function toggleTask(taskId) {
 
 export function updateTaskTitle(taskId, title) {
   const task = tasks.find((item) => item.id === taskId);
+  const cleanTitle = title.trim();
 
-  if (task === undefined) {
+  if (task === undefined || cleanTitle === "") {
     return null;
   }
 
-  task.title = title.trim();
+  task.title = cleanTitle;
   return task;
 }
 
