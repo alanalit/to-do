@@ -7,10 +7,28 @@ const taskTitleInput = document.querySelector("#task-title");
 const taskList = document.querySelector("#task-list");
 const taskCount = document.querySelector("#task-count");
 const formFeedback = document.querySelector("#form-feedback");
+const taskFilters = document.querySelector("#task-filters");
+const filterCounts = {
+  all: document.querySelector("#count-all"),
+  pending: document.querySelector("#count-pending"),
+  completed: document.querySelector("#count-completed"),
+};
+let activeFilter = "all";
+
+function renderCurrentTasks() {
+  renderTasks(taskList, taskCount, filterCounts, getTasks(), activeFilter);
+}
+
+function selectFilter(filterName) {
+  activeFilter = filterName;
+  taskFilters.querySelectorAll("[data-filter]").forEach((filterButton) => {
+    filterButton.setAttribute("aria-pressed", String(filterButton.dataset.filter === activeFilter));
+  });
+}
 
 const savedTasks = loadTasks();
 setTasks(savedTasks.tasks);
-renderTasks(taskList, taskCount, getTasks());
+renderCurrentTasks();
 
 if (savedTasks.message !== "") {
   showFeedback(formFeedback, savedTasks.message, "error");
@@ -29,7 +47,8 @@ taskForm.addEventListener("submit", (event) => {
   }
 
   addTask(title);
-  renderTasks(taskList, taskCount, getTasks());
+  selectFilter("all");
+  renderCurrentTasks();
   taskForm.reset();
 
   const saveResult = saveTasks(getTasks());
@@ -54,14 +73,7 @@ taskList.addEventListener("change", (event) => {
     return;
   }
 
-  const taskItem = taskToggle.closest(".task-item");
-  const taskTitle = taskItem.querySelector(".task-title");
-  taskItem.classList.toggle("is-completed", task.completed);
-  taskTitle.classList.toggle("task-title-completed", task.completed);
-  taskToggle.setAttribute(
-    "aria-label",
-    task.completed ? `Reabrir tarefa: ${task.title}` : `Marcar como concluída: ${task.title}`,
-  );
+  renderCurrentTasks();
 
   const saveResult = saveTasks(getTasks());
   if (saveResult.success) {
@@ -69,6 +81,14 @@ taskList.addEventListener("change", (event) => {
     showFeedback(formFeedback, message, "success");
   } else {
     showFeedback(formFeedback, saveResult.message, "error");
+  }
+
+  const visibleToggle = Array.from(taskList.querySelectorAll("[data-task-toggle]"))
+    .find((toggle) => toggle.dataset.taskToggle === task.id);
+  if (visibleToggle !== undefined) {
+    visibleToggle.focus();
+  } else {
+    taskFilters.querySelector(`[data-filter="${activeFilter}"]`).focus();
   }
 });
 
@@ -84,7 +104,7 @@ taskList.addEventListener("click", (event) => {
     return;
   }
 
-  renderTasks(taskList, taskCount, getTasks());
+  renderCurrentTasks();
 
   const saveResult = saveTasks(getTasks());
   if (saveResult.success) {
@@ -94,4 +114,15 @@ taskList.addEventListener("click", (event) => {
   }
 
   taskTitleInput.focus();
+});
+
+taskFilters.addEventListener("click", (event) => {
+  const selectedFilter = event.target.closest("[data-filter]");
+
+  if (selectedFilter === null) {
+    return;
+  }
+
+  selectFilter(selectedFilter.dataset.filter);
+  renderCurrentTasks();
 });

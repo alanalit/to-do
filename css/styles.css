@@ -60,6 +60,12 @@ h1 { margin-bottom: 12px; font-family: Manrope, "Segoe UI", sans-serif; font-siz
 .list-heading .eyebrow { margin-bottom: 5px; font-size: 9px; letter-spacing: 1.5px; }
 h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.5px; }
 .task-count { display: grid; min-width: 32px; height: 27px; padding: 0 7px; place-items: center; border-radius: 8px; background: #f1f3ee; color: #7d887f; font-size: 10px; font-weight: 700; letter-spacing: .4px; }
+.task-filters { display: flex; gap: 6px; padding: 0 27px 12px; overflow-x: auto; }
+.filter-button { display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 0 10px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: #777f78; white-space: nowrap; font-size: 11px; }
+.filter-button:hover { background: #f6f4f8; }
+.filter-button[aria-pressed="true"] { border-color: #e5ddef; background: #f3eef8; color: var(--purple-dark); font-weight: 600; }
+.filter-count { color: #99929f; font-size: 10px; }
+.filter-button[aria-pressed="true"] .filter-count { color: var(--purple); }
 .task-list { min-height: 245px; margin: 0; padding: 0 27px; list-style: none; }
 .task-item { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 4px; border-bottom: 1px solid var(--line); color: #48534a; font-size: 14px; overflow-wrap: anywhere; }
 .task-check { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: var(--purple); cursor: pointer; }
@@ -103,6 +109,8 @@ h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 
   .task-item { gap: 9px; font-size: 13px; }
   .remove-task { padding: 6px 7px; font-size: 10px; }
   .list-heading { padding: 23px 18px 14px; }
+  .task-filters { gap: 3px; padding: 0 18px 10px; }
+  .filter-button { gap: 5px; padding: 0 8px; font-size: 10px; }
   .task-list { padding: 0 18px; }
   .panel-footer { font-size: 9px; }
 }
