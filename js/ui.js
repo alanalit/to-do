@@ -33,7 +33,14 @@ export function renderTasks(taskList, taskCount, tasks) {
       taskTitle.textContent = task.title;
       taskTitle.classList.toggle("task-title-completed", task.completed);
 
-      listItem.append(taskToggle, taskTitle);
+      const removeButton = document.createElement("button");
+      removeButton.className = "remove-task";
+      removeButton.type = "button";
+      removeButton.textContent = "Remover";
+      removeButton.dataset.taskRemove = task.id;
+      removeButton.setAttribute("aria-label", `Remover tarefa: ${task.title}`);
+
+      listItem.append(taskToggle, taskTitle, removeButton);
       taskList.append(listItem);
     });
   }

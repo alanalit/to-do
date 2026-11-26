@@ -1,5 +1,5 @@
 import { loadTasks, saveTasks } from "./storage.js";
-import { addTask, getTasks, setTasks, toggleTask } from "./tasks.js";
+import { addTask, getTasks, removeTask, setTasks, toggleTask } from "./tasks.js";
 import { renderTasks, showFeedback } from "./ui.js";
 
 const taskForm = document.querySelector("#task-form");
@@ -70,4 +70,28 @@ taskList.addEventListener("change", (event) => {
   } else {
     showFeedback(formFeedback, saveResult.message, "error");
   }
+});
+
+taskList.addEventListener("click", (event) => {
+  const removeButton = event.target.closest("[data-task-remove]");
+
+  if (removeButton === null) {
+    return;
+  }
+
+  const removedTask = removeTask(removeButton.dataset.taskRemove);
+  if (removedTask === null) {
+    return;
+  }
+
+  renderTasks(taskList, taskCount, getTasks());
+
+  const saveResult = saveTasks(getTasks());
+  if (saveResult.success) {
+    showFeedback(formFeedback, `Tarefa removida: ${removedTask.title}`, "success");
+  } else {
+    showFeedback(formFeedback, saveResult.message, "error");
+  }
+
+  taskTitleInput.focus();
 });
