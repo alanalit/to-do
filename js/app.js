@@ -1,5 +1,5 @@
 import { loadTasks, saveTasks } from "./storage.js";
-import { addTask, getTasks, removeTask, setTasks, toggleTask } from "./tasks.js";
+import { addTask, getTasks, removeTask, setTasks, toggleTask, updateTaskTitle } from "./tasks.js";
 import { renderTasks, showFeedback } from "./ui.js";
 
 const taskForm = document.querySelector("#task-form");
@@ -14,9 +14,10 @@ const filterCounts = {
   completed: document.querySelector("#count-completed"),
 };
 let activeFilter = "all";
+let editingTaskId = null;
 
 function renderCurrentTasks() {
-  renderTasks(taskList, taskCount, filterCounts, getTasks(), activeFilter);
+  renderTasks(taskList, taskCount, filterCounts, getTasks(), activeFilter, editingTaskId);
 }
 
 function selectFilter(filterName) {
@@ -93,6 +94,27 @@ taskList.addEventListener("change", (event) => {
 });
 
 taskList.addEventListener("click", (event) => {
+  const editButton = event.target.closest("[data-task-edit]");
+  if (editButton !== null) {
+    editingTaskId = editButton.dataset.taskEdit;
+    renderCurrentTasks();
+    const editInput = Array.from(taskList.querySelectorAll("[data-task-edit-input]"))
+      .find((input) => input.dataset.taskEditInput === editingTaskId);
+    editInput?.focus();
+    return;
+  }
+
+  const cancelButton = event.target.closest("[data-task-edit-cancel]");
+  if (cancelButton !== null) {
+    const canceledTaskId = cancelButton.dataset.taskEditCancel;
+    editingTaskId = null;
+    renderCurrentTasks();
+    const taskEditButton = Array.from(taskList.querySelectorAll("[data-task-edit]"))
+      .find((button) => button.dataset.taskEdit === canceledTaskId);
+    taskEditButton?.focus();
+    return;
+  }
+
   const removeButton = event.target.closest("[data-task-remove]");
 
   if (removeButton === null) {
@@ -114,6 +136,42 @@ taskList.addEventListener("click", (event) => {
   }
 
   taskTitleInput.focus();
+});
+
+taskList.addEventListener("submit", (event) => {
+  const editForm = event.target.closest("[data-task-edit-form]");
+  if (editForm === null) {
+    return;
+  }
+
+  event.preventDefault();
+
+  const editInput = editForm.querySelector("[data-task-edit-input]");
+  const title = editInput.value.trim();
+  if (title === "") {
+    showFeedback(formFeedback, "O título da tarefa não pode ficar vazio.", "error");
+    editInput.focus();
+    return;
+  }
+
+  const updatedTask = updateTaskTitle(editForm.dataset.taskEditForm, title);
+  if (updatedTask === null) {
+    return;
+  }
+
+  editingTaskId = null;
+  renderCurrentTasks();
+
+  const saveResult = saveTasks(getTasks());
+  if (saveResult.success) {
+    showFeedback(formFeedback, "Tarefa atualizada.", "success");
+  } else {
+    showFeedback(formFeedback, saveResult.message, "error");
+  }
+
+  const taskEditButton = Array.from(taskList.querySelectorAll("[data-task-edit]"))
+    .find((button) => button.dataset.taskEdit === updatedTask.id);
+  taskEditButton?.focus();
 });
 
 taskFilters.addEventListener("click", (event) => {

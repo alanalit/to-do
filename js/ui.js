@@ -1,4 +1,4 @@
-export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilter) {
+export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilter, editingTaskId) {
   taskList.replaceChildren();
 
   const pendingTasks = tasks.filter((task) => !task.completed);
@@ -46,10 +46,46 @@ export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilt
       listItem.className = "task-item";
       listItem.classList.toggle("is-completed", task.completed);
 
+      if (task.id === editingTaskId) {
+        const editForm = document.createElement("form");
+        editForm.className = "edit-task-form";
+        editForm.dataset.taskEditForm = task.id;
+
+        const editLabel = document.createElement("label");
+        editLabel.className = "visually-hidden";
+        editLabel.htmlFor = `edit-task-${task.id}`;
+        editLabel.textContent = `Editar tarefa: ${task.title}`;
+
+        const editInput = document.createElement("input");
+        editInput.className = "edit-task-input";
+        editInput.id = `edit-task-${task.id}`;
+        editInput.type = "text";
+        editInput.value = task.title;
+        editInput.dataset.taskEditInput = task.id;
+        editInput.autocomplete = "off";
+
+        const saveButton = document.createElement("button");
+        saveButton.className = "edit-save";
+        saveButton.type = "submit";
+        saveButton.textContent = "Salvar";
+
+        const cancelButton = document.createElement("button");
+        cancelButton.className = "edit-cancel";
+        cancelButton.type = "button";
+        cancelButton.textContent = "Cancelar";
+        cancelButton.dataset.taskEditCancel = task.id;
+
+        editForm.append(editLabel, editInput, saveButton, cancelButton);
+        listItem.append(editForm);
+        taskList.append(listItem);
+        return;
+      }
+
       const taskToggle = document.createElement("input");
       taskToggle.className = "task-check";
       taskToggle.type = "checkbox";
       taskToggle.checked = task.completed;
+      taskToggle.disabled = editingTaskId !== null;
       taskToggle.dataset.taskToggle = task.id;
       taskToggle.setAttribute(
         "aria-label",
@@ -61,14 +97,23 @@ export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilt
       taskTitle.textContent = task.title;
       taskTitle.classList.toggle("task-title-completed", task.completed);
 
+      const editButton = document.createElement("button");
+      editButton.className = "edit-task";
+      editButton.type = "button";
+      editButton.textContent = "Editar";
+      editButton.dataset.taskEdit = task.id;
+      editButton.disabled = editingTaskId !== null;
+      editButton.setAttribute("aria-label", `Editar tarefa: ${task.title}`);
+
       const removeButton = document.createElement("button");
       removeButton.className = "remove-task";
       removeButton.type = "button";
       removeButton.textContent = "Remover";
       removeButton.dataset.taskRemove = task.id;
+      removeButton.disabled = editingTaskId !== null;
       removeButton.setAttribute("aria-label", `Remover tarefa: ${task.title}`);
 
-      listItem.append(taskToggle, taskTitle, removeButton);
+      listItem.append(taskToggle, taskTitle, editButton, removeButton);
       taskList.append(listItem);
     });
   }

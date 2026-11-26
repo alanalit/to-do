@@ -71,8 +71,16 @@ h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 
 .task-check { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: var(--purple); cursor: pointer; }
 .task-title { flex: 1; overflow-wrap: anywhere; }
 .task-title-completed { color: #9a9a97; text-decoration: line-through; text-decoration-thickness: 1px; }
-.remove-task { flex: 0 0 auto; padding: 6px 9px; border: 1px solid #e8e3ee; border-radius: 7px; background: transparent; color: #746782; font-size: 11px; transition: background .18s ease, color .18s ease; }
-.remove-task:hover { border-color: #6841a5; background: #6841a5; color: #fff; }
+.edit-task, .remove-task { flex: 0 0 auto; padding: 6px 9px; border: 1px solid #e8e3ee; border-radius: 7px; background: transparent; color: #746782; font-size: 11px; transition: background .18s ease, color .18s ease; }
+.edit-task:hover, .remove-task:hover { border-color: #6841a5; background: #6841a5; color: #fff; }
+.edit-task:disabled, .remove-task:disabled, .task-check:disabled { cursor: not-allowed; opacity: .45; }
+.edit-task-form { display: flex; width: 100%; align-items: center; gap: 7px; }
+.edit-task-input { min-width: 0; min-height: 35px; flex: 1; padding: 6px 9px; border: 1px solid #ddd5e8; border-radius: 7px; color: var(--ink); }
+.edit-save, .edit-cancel { flex: 0 0 auto; min-height: 34px; padding: 0 9px; border: 0; border-radius: 7px; font-size: 11px; }
+.edit-save { background: var(--purple); color: #fff; }
+.edit-save:hover { background: var(--purple-dark); }
+.edit-cancel { background: #f1eff3; color: #68626f; }
+.edit-cancel:hover { background: #e7e2eb; }
 .empty-state { display: flex; min-height: 220px; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 22px; text-align: center; }
 .empty-illustration { position: relative; display: block; width: 84px; height: 75px; margin-bottom: 12px; }
 .sun { position: absolute; top: 4px; right: 10px; width: 25px; height: 25px; border-radius: 50%; background: #f5d5a9; }
@@ -107,7 +115,9 @@ h2 { margin-bottom: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 
   .task-form input { font-size: 13px; }
   .add-button { gap: 7px; min-height: 37px; padding: 0 11px; font-size: 11px; }
   .task-item { gap: 9px; font-size: 13px; }
-  .remove-task { padding: 6px 7px; font-size: 10px; }
+  .edit-task, .remove-task { padding: 6px 7px; font-size: 10px; }
+  .edit-task-form { gap: 5px; }
+  .edit-save, .edit-cancel { padding: 0 7px; font-size: 10px; }
   .list-heading { padding: 23px 18px 14px; }
   .task-filters { gap: 3px; padding: 0 18px 10px; }
   .filter-button { gap: 5px; padding: 0 8px; font-size: 10px; }

@@ -27,6 +27,17 @@ export function toggleTask(taskId) {
   return task;
 }
 
+export function updateTaskTitle(taskId, title) {
+  const task = tasks.find((item) => item.id === taskId);
+
+  if (task === undefined) {
+    return null;
+  }
+
+  task.title = title.trim();
+  return task;
+}
+
 export function removeTask(taskId) {
   const taskIndex = tasks.findIndex((item) => item.id === taskId);
 
