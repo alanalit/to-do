@@ -57,4 +57,3 @@ Dados ausentes iniciam uma lista vazia. JSON inválido e itens fora do formato e
 - `js/tasks.js`: regras para criar, consultar, atualizar e remover tarefas.
 - `js/storage.js`: leitura, validação e gravação no `localStorage`.
 - `js/ui.js`: renderização da lista, contadores e mensagens.
-- `PLANO_PROJETO.md`: escopo, modelo de dados e sequência de implementação.
