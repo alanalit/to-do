@@ -50,6 +50,7 @@ export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilt
         const editForm = document.createElement("form");
         editForm.className = "edit-task-form";
         editForm.dataset.taskEditForm = task.id;
+        editForm.noValidate = true;
 
         const editLabel = document.createElement("label");
         editLabel.className = "visually-hidden";
@@ -63,6 +64,8 @@ export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilt
         editInput.value = task.title;
         editInput.dataset.taskEditInput = task.id;
         editInput.autocomplete = "off";
+        editInput.required = true;
+        editInput.setAttribute("aria-describedby", "form-feedback");
 
         const saveButton = document.createElement("button");
         saveButton.className = "edit-save";
@@ -125,4 +128,9 @@ export function renderTasks(taskList, taskCount, filterCounts, tasks, activeFilt
 export function showFeedback(element, message, type) {
   element.textContent = message;
   element.dataset.type = type;
+}
+
+export function clearFeedback(element) {
+  element.textContent = "";
+  delete element.dataset.type;
 }

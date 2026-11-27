@@ -28,7 +28,7 @@
           <form class="task-form" id="task-form" novalidate>
             <label class="visually-hidden" for="task-title">O que você precisa fazer?</label>
             <span class="input-icon" aria-hidden="true">＋</span>
-            <input id="task-title" name="title" type="text" placeholder="O que você precisa fazer?" autocomplete="off" />
+            <input id="task-title" name="title" type="text" placeholder="O que você precisa fazer?" autocomplete="off" required aria-describedby="form-feedback" />
             <button class="add-button" type="submit"><span>Adicionar</span><span aria-hidden="true">↗</span></button>
           </form>
           <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
@@ -39,6 +39,18 @@
               <h2 id="tasks-title">Tarefas de hoje</h2>
             </div>
             <span class="task-count" id="task-count" aria-label="0 tarefas">00</span>
+          </div>
+
+          <div class="task-filters" id="task-filters" role="group" aria-label="Filtrar tarefas">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">
+              Todas <span class="filter-count" id="count-all">00</span>
+            </button>
+            <button class="filter-button" type="button" data-filter="pending" aria-pressed="false">
+              Pendentes <span class="filter-count" id="count-pending">00</span>
+            </button>
+            <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">
+              Concluídas <span class="filter-count" id="count-completed">00</span>
+            </button>
           </div>
 
           <ul class="task-list" id="task-list" aria-labelledby="tasks-title">
